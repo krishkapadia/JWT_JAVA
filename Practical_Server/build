@@ -1,0 +1,3 @@
+#!/bin/sh
+mvn clean package
+docker build -t krishkapadia00/Practical_Server .

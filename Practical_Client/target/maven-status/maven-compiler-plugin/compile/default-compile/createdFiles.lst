@@ -1,0 +1,9 @@
+com\mycompany\practical_client\service\ExampleService.class
+com\mycompany\practical_client\config\CrossOriginResourceSharingFilter.class
+Client\I_Client.class
+com\mycompany\practical_client\config\BootStrap.class
+com\mycompany\practical_client\config\Producers.class
+Entity\Customer.class
+Entity\Customer_.class
+Bean\NewJSFManagedBean.class
+com\mycompany\practical_client\service\HealthCheckService.class

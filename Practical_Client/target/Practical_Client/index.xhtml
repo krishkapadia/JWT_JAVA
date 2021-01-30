@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <center>
+            
+            <h1>All Customer</h1>
+            <table border="1">
+                <tr>
+                    <td>CustomerId</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>PhoneNo</td>
+                    <td>Address</td>
+                    <td>Rating</td>
+                </tr>
+                <c:forEach items="#{newJSFManagedBean.allCustomer}" var="cust">
+                    <tr>
+                        <td>#{cust.categoryId}</td>
+                        <td>#{cust.name}</td>
+                        <td>#{cust.email}</td>
+                        <td>#{cust.phoneNo}</td>
+                        <td>#{cust.address}</td>
+                        <td>#{cust.rating}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <br></br>
+            <h:form>
+                <table>
+                    <tr>
+                        <td>Select Condition :</td>
+                        <td>
+                            <h:selectOneMenu value="#{newJSFManagedBean.condition}">
+                                <f:selectItem itemValue="gt" itemLabel="Greater Than"></f:selectItem>
+                                <f:selectItem itemValue="lt" itemLabel="Less Than" ></f:selectItem>
+                                <f:selectItem itemValue="gteq" itemLabel="Greater Than Equal too"></f:selectItem>
+                                <f:selectItem itemValue="lteq" itemLabel="Less Than Equal too"></f:selectItem>
+                                <f:selectItem itemValue="eq" itemLabel="Equal too"></f:selectItem>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enter Rating :</td>
+                        <td>
+                            <h:inputText value="#{newJSFManagedBean.rating}"></h:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <h:commandButton action="#{newJSFManagedBean.getCustomers}" value="Search"></h:commandButton>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+            <br></br>
+            <h1>Result</h1>
+            <table border="1">
+                <tr>
+                    <td>CustomerId</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>PhoneNo</td>
+                    <td>Address</td>
+                    <td>Rating</td>
+                </tr>
+                <c:forEach items="#{newJSFManagedBean.cust}" var="cust">
+                    <tr>
+                        <td>#{cust.categoryId}</td>
+                        <td>#{cust.name}</td>
+                        <td>#{cust.email}</td>
+                        <td>#{cust.phoneNo}</td>
+                        <td>#{cust.address}</td>
+                        <td>#{cust.rating}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </center>
+    </h:body>
+</html>
+

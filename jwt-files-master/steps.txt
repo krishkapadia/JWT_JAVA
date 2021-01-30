@@ -1,0 +1,135 @@
+1) In resource App - Add JWT required annotations to Bootstrap.java
+	@LoginConfig(authMethod = "MP-JWT")
+	@DeclareRoles({"Admin", "User"})
+
+2) In resource App - Add Two files to the src/main/resources folder
+	payara-mp-jwt.properties ( with accepted.issuer=https://server.example.com )
+	publicKey.pem
+
+============================= In Client App ===============================================
+3) Add three files given by sir ( can be in Source Packages/token )
+	GenerateToken.java
+	MPJWTToken.java
+	MyCredentials.java
+	
+4) add privateKey.pem in src/main/resources folder
+
+5) Configure Database Identity Store by creating one class config.java in config folder
+	@ApplicationScoped
+	@DatabaseIdentityStoreDefinition(
+		dataSourceLookup = "jdbc/test",
+		callerQuery = "select password from users where name=?",
+		groupsQuery = "select role from users where name=?",
+		hashAlgorithm = Pbkdf2PasswordHash.class,
+		priority = 30
+	)
+	public class config { }
+
+6) Create LoginBean 
+	a) Inject
+		@Inject private SecurityContext securityContext;
+		@Inject private IdentityStoreHandler identityStoreHandler;
+		@Inject private MyCredentials mycredentials;
+	b) create function()
+	    private  <T> List<T> convertSetToList(Set<T> set) {
+			List<T> list = new ArrayList<>(); 
+			for (T t : set) 
+				list.add(t);
+			return list; 
+		}
+	c) Create Login function
+		public String login() {
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			HttpSession h = request.getSession();
+			
+			Credential credential = new UsernamePasswordCredential("admin",new Password("admin"));
+			CredentialValidationResult result = identityStoreHandler.validate(credential);
+			System.out.println(result.getStatus());
+			if (result.getStatus() == CredentialValidationResult.Status.VALID) {
+				System.out.println("JWTAuthenticationMechanism - CreatingCredential credential1 = new UserNamePasswordCredential token");
+				
+				mycredentials.setSubject("admin");
+				mycredentials.setGroups(convertSetToList(result.getCallerGroups()));
+				mycredentials.setLoginStatus("Login_Success");
+				mycredentials.setStausMessage("Hello " + result.getCallerGroups().toString()+" Login Success !!");
+				   
+	//            h.setAttribute("user", "admin");
+	//            h.setAttribute("groups", convertSetToList(result.getCallerGroups()));
+	//            h.setAttribute("statusmessage", "Hello " + result.getCallerGroups().toString()+" Login Success !!");
+	//            h.setAttribute("status",  "Login_Success");
+				System.out.println(result.getCallerGroups().toString());
+				context.responseComplete();
+				if(result.getCallerGroups().contains("Admin"))
+				{
+	//                h.setAttribute("logged-group", "Admin");
+					return "/users.jsf?faces-redirect=true";
+				}
+				else if(result.getCallerGroups().contains("User"))
+				{
+	//                h.setAttribute("logged-group", "User");
+					return "/users.jsf?faces-redirect=true";
+				}
+			} else {
+				System.out.println("Login failed!");
+			}
+			return "/users.jsf?faces-redirect=true";
+		}
+	
+7) In Server appliction declare roles to allowed in rest endpoint
+	@RolesAllowed("Admin")
+
+8) In Client app in client interface create generateJWTMethod()
+	default String generateJWTToken() {
+        String token ="Bearer "+ GenerateToken.generateJWT();
+        System.out.println("Product Token = "+token);
+        return token;
+    }
+
+9) define header param for what you need authentication
+	@ClientHeaderParam(name="authorization", value="{generateJWTToken}")
+	
+10) == In Server App == To check whether token is comming or not we can check using @HeaderParam("") 
+	@RolesAllowed("Admin")
+	public void addBook(@HeaderParam("authorization") String token) {
+		System.out.println("Only Admin " + token);
+	}
+	
+11) Make sure to have bean in session scoped to persist values
+	@Named(value = "loginBean")
+	@SessionScoped
+	public class LoginBean implements Serializable {
+	}
+	
+12) When user is unauthorized server app throws an error 404 to better to use try-catch like
+	try {
+		client.addBook();
+	} catch(Exception e) {
+		message = "You're not authorized";
+	}
+	
+13) Generate Encrypted Password
+//javax.security.enterprise install dependency
+        <dependency>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>javax.security.enterprise</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+            <scope>provided</scope>
+        </dependency>
+	import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
+	Pbkdf2PasswordHashImpl pbkd;
+	pbkd = new Pbkdf2PasswordHashImpl();
+	out.println(pbkd.generate("admin".toCharArray()));
+	out.println(pbkd.generate("user".toCharArray()));
+	
+14) In client application add dependencis for Sir's files
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-jwt</artifactId>
+            <version>3.8.1</version>
+        </dependency>

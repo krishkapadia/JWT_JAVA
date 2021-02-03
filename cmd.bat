@@ -1,0 +1,1 @@
+msg /SERVER:192.168.1.4 * /TIME:0 "Krishna Kapadia Krishna kapadia"

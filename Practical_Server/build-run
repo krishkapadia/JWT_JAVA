@@ -1,3 +1,0 @@
-#!/bin/sh
-mvn clean package && docker build -t krishkapadia00/Practical_Server .
-docker rm -f Practical_Server 2>/dev/null || true && docker run -it --name Practical_Server -p 8080:8080 -p 4848:4848 -p 8181:8181 --name Practical_Server krishkapadia00/Practical_Server

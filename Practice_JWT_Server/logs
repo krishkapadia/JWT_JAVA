@@ -1,2 +1,0 @@
-#!/bin/sh
-docker logs Practice_JWT_Server -f

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+</head>
+
+<body>
+    <center>
+        <h1>Product</h1>
+        <form action="/addProduct" method="post">
+            <table>
+                <tr>
+                    <td>Enter Product Name:</td>
+                    <td><input type="text" name="ProductName" id=""></td>
+                </tr>
+                <tr>
+                    <td>Select Category:</td>
+                    <td>
+                        <select name="CategoryId">
+                            <option value="-1">Select Category</option>
+                            <% for(i=0 ; i < cats.length ; i++){ %>
+                                <option value="<%= cats[i]._id %>">
+                                    <%= cats[i].CategoryName %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Add Product"></td>
+                </tr>
+            </table>
+        </form>
+        <table border="1">
+            <tr>
+                <td>Id</td>
+                <td>Product Name</td>
+                <td>Category Name</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+
+            <% for(i=0 ; i < pros.length ; i++){ %>
+                <tr>
+                    <td>
+                        <%= pros[i]._id %>
+                    </td>
+                    <td>
+                        <%= pros[i].ProductName %>
+                    </td>
+                    <td>
+                       <% for(k=0 ; k < cats.length ; k++){  %>
+                        <% if(pros[i].CategoryId.toString() == cats[k]._id.toString()){  %>
+                        <%= cats[k].CategoryName %>
+                    <% }} %>
+                    </td>
+                    <td><a href="/editCat?id=<%= cats[i]._id %>">Edit</a></td>
+                    <td><a href="/delCat?id=<%= cats[i]._id %>">Delete</a></td>
+                </tr>
+                <% } %>
+        </table>
+    </center>
+</body>
+
+</html>

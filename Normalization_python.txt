@@ -1,5 +1,0 @@
-data.columns
-# data["Petrol_tax"]
-data["Petrol_tax"]=data["Petrol_tax"]/data["Petrol_tax"].max()
-# data["Petrol_tax"]
-data["Average_income"]=data["Average_income"]/data["Average_income"].max()

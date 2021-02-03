@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Users>
+    <User>
+        <Username>Krish</Username>
+        <Password>krish</Password>
+        <Role>admin</Role>
+    </User>
+    <User>
+        <Username>Krish1</Username>
+        <Password>krish1</Password>
+        <Role>admin1</Role>
+    </User>
+    <User>
+        <Username>Krish2</Username>
+        <Password>krish2</Password>
+        <Role>admin2</Role>
+    </User>
+</Users>

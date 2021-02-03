@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+</head>
+<body>
+    <table>
+        <form method="post" action="/" >
+            CategoryName:<input type="text" name="CategoryName"/>
+            <input type="submit" value="Add Category">
+        </form>
+        <tr>
+            <td>Category ID</td>
+            <td>Category Name</td>
+            <td>Delete</td>
+            <td>Edit</td>
+        </tr>
+        <% for(i=0 ; i < data.length ; i++){ %>
+            <tr>
+                <td>
+                    <%= data[i]._id %>
+                </td>
+                <td>
+                    <%= data[i].CategoryName %>
+                </td>        
+                <td>
+                    <a href="/delete?Cid=<%= data[i]._id %>">Delete</a>
+                </td>
+                <td>
+                    <a href="/updateRedirect?Cid=<%= data[i]._id %>">Edit</a>
+                </td>
+                     
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>

@@ -1,3 +1,0 @@
-#!/bin/sh
-mvn clean package && docker build -t krishkapadia00/Exam-Client .
-docker rm -f Exam-Client 2>/dev/null || true && docker run -it --name Exam-Client -p 8080:8080 -p 4848:4848 -p 8181:8181 --name Exam-Client krishkapadia00/Exam-Client

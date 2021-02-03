@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+</head>
+
+<body>
+    <center>
+        <h1>Category</h1>
+        <form action="/insertCat" method="post">
+            <table>
+                <tr>
+                    <td>Enter Category Name:</td>
+                    <td><input type="text" name="categoryname" id=""></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Add Category"></td>
+                </tr>
+            </table>
+        </form>
+        <table border="1">
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+            <?= echo "Hello"  ?>
+            <% for(i=0 ; i < cats.length ; i++){ %>
+            <tr>
+                <td><%= cats[i]._id %></td>
+                <td><%= cats[i].CategoryName %></td>
+                <td><a href="/editCat?id=<%= cats[i]._id %>">Edit</a></td>
+                <td><a href="/delCat?id=<%= cats[i]._id %>">Delete</a></td>
+            </tr>    
+            <% } %>
+        </table>
+    </center>
+
+</body>
+
+</html>
